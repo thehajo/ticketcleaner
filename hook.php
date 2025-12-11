@@ -67,7 +67,7 @@ function loadSha1IntoDB() {
    $datetime = date( "YmdHis", $stats['mtime'] );
 
    if ($datetime > $lastupdate) { // means picture folder has been modified since last update
-      $DB->query("TRUNCATE TABLE glpi_plugin_ticketcleaner_picturehashes"); //or die("error on 'truncate' glpi_plugin_ticketcleaner_picturehashes ". $DB->error()) ;
+      $DB->doQuery("TRUNCATE TABLE glpi_plugin_ticketcleaner_picturehashes"); //or die("error on 'truncate' glpi_plugin_ticketcleaner_picturehashes ". $DB->error()) ;
       // compute hash for each file and then insert it in DB with REPLACE INTO to prvent double entries
       foreach ($files as $pict) {
          if ($pict <> "." && $pict <> "..") {
@@ -119,7 +119,7 @@ function plugin_ticketcleaner_install() {
             ENGINE=InnoDB;
             ";
 
-      $DB->query($query) or die("error creating glpi_plugin_ticketcleaner_picturehashes_lastupdate " . $DB->error());
+      $DB->doQuery($query) or die("error creating glpi_plugin_ticketcleaner_picturehashes_lastupdate " . $DB->error());
    }
 
    if (!$DB->tableExists("glpi_plugin_ticketcleaner_picturehashes")) {
@@ -134,20 +134,20 @@ function plugin_ticketcleaner_install() {
             ENGINE=InnoDB;
             ";
 
-      $DB->query($query) or die("error creating glpi_plugin_ticketcleaner_picturehashes " . $DB->error());
+      $DB->doQuery($query) or die("error creating glpi_plugin_ticketcleaner_picturehashes " . $DB->error());
    }
 
    loadSha1IntoDB(); // also done on the fly
 
    if ($DB->tableExists("backup_glpi_plugin_ticketcleaner_filters")) {
       $query = "DROP TABLE `backup_glpi_plugin_ticketcleaner_filters`;";
-      $DB->query($query) or die("error droping old backup_glpi_plugin_ticketcleaner_filters" . $DB->error());
+      $DB->doQuery($query) or die("error droping old backup_glpi_plugin_ticketcleaner_filters" . $DB->error());
    }
 
    if ($DB->tableExists("glpi_plugin_ticketcleaner_filters") && $DB->fieldExists( 'glpi_plugin_ticketcleaner_filters', 'filter' )) {
 
       $query = "RENAME TABLE `glpi_plugin_ticketcleaner_filters` TO `backup_glpi_plugin_ticketcleaner_filters`;";
-      $DB->query($query) or die("error renaming glpi_plugin_ticketcleaner_filters to backup_glpi_plugin_ticketcleaner_filters" . $DB->error());
+      $DB->doQuery($query) or die("error renaming glpi_plugin_ticketcleaner_filters to backup_glpi_plugin_ticketcleaner_filters" . $DB->error());
    }
 
    if (!$DB->tableExists("glpi_plugin_ticketcleaner_filters")) {
@@ -170,7 +170,7 @@ function plugin_ticketcleaner_install() {
                   ENGINE=InnoDB
                   ;";
 
-      $DB->query($query) or die("error creating glpi_plugin_ticketcleaner_filters " . $DB->error());
+      $DB->doQuery($query) or die("error creating glpi_plugin_ticketcleaner_filters " . $DB->error());
 
    } else {
       // change regex and replacement field type
@@ -180,13 +180,13 @@ function plugin_ticketcleaner_install() {
          $query = "ALTER TABLE `glpi_plugin_ticketcleaner_filters`
                   ALTER `regex` DROP DEFAULT,
                   ALTER `replacement` DROP DEFAULT;";
-         $DB->query($query) or die("error droping defaults for 'regex' and 'replacement' in glpi_plugin_ticketcleaner_filters " . $DB->error());
+         $DB->doQuery($query) or die("error droping defaults for 'regex' and 'replacement' in glpi_plugin_ticketcleaner_filters " . $DB->error());
 
          $query = "ALTER TABLE `glpi_plugin_ticketcleaner_filters`
                   CHANGE COLUMN `order` `order` INT(11) NULL AFTER `type` ,
                   CHANGE COLUMN `regex` `regex` TEXT NOT NULL AFTER `order` ,
                   CHANGE COLUMN `replacement` `replacement` TEXT NOT NULL AFTER `regex`;";
-         $DB->query($query) or die("error changing type of 'regex' and 'replacement' in glpi_plugin_ticketcleaner_filters " . $DB->error());
+         $DB->doQuery($query) or die("error changing type of 'regex' and 'replacement' in glpi_plugin_ticketcleaner_filters " . $DB->error());
 
       }
    }
@@ -207,12 +207,12 @@ function plugin_ticketcleaner_uninstall() {
    // Current version tables
    if ($DB->tableExists("glpi_plugin_ticketcleaner_picturehashes")) {
       $query = "DROP TABLE `glpi_plugin_ticketcleaner_picturehashes`";
-      $DB->query($query) or die("error deleting glpi_plugin_ticketcleaner_picturehashes");
+      $DB->doQuery($query) or die("error deleting glpi_plugin_ticketcleaner_picturehashes");
    }
 
    if ($DB->tableExists("glpi_plugin_ticketcleaner_picturehashes_lastupdate")) {
       $query = "DROP TABLE `glpi_plugin_ticketcleaner_picturehashes_lastupdate`";
-      $DB->query($query) or die("error deleting glpi_plugin_ticketcleaner_picturehashes_lastupdate");
+      $DB->doQuery($query) or die("error deleting glpi_plugin_ticketcleaner_picturehashes_lastupdate");
    }
 
    return true;
@@ -424,3 +424,4 @@ class PluginTicketCleaner {
    }
 
 }
+
