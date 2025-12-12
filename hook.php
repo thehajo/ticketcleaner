@@ -115,7 +115,7 @@ function plugin_ticketcleaner_install() {
                 `lastupdate` VARCHAR(50) NULL,
                 PRIMARY KEY (`id`)
             )
-            COLLATE='utf8_general_ci'
+            COLLATE='utf8mb4_general_ci'
             ENGINE=InnoDB;
             ";
 
@@ -130,7 +130,7 @@ function plugin_ticketcleaner_install() {
                 PRIMARY KEY (`id`),
                 INDEX `hash` (`hash`)
             )
-            COLLATE='utf8_general_ci'
+            COLLATE='utf8mb4_general_ci'
             ENGINE=InnoDB;
             ";
 
@@ -166,7 +166,7 @@ function plugin_ticketcleaner_install() {
                       INDEX `type` (`type`),
                      INDEX `order` (`order`)
                   )
-                  COLLATE='utf8_general_ci'
+                  COLLATE='utf8mb4_general_ci'
                   ENGINE=InnoDB
                   ;";
 
@@ -424,4 +424,5 @@ class PluginTicketCleaner {
    }
 
 }
+
 
