@@ -43,6 +43,7 @@ class PluginTicketcleanerMenu extends CommonGLPI {
       $menu = [];
       $menu['title'] = self::getMenuName();
       $menu['page']  = "$front_page/filter.php";
+      $menu['icon'] = 'fa-solid fa-broom';
 
       $itemtypes = ['PluginTicketcleanerFilter' => 'ticketcleanerfilter'];
 
@@ -67,3 +68,4 @@ class PluginTicketcleanerMenu extends CommonGLPI {
 
 
 }
+
