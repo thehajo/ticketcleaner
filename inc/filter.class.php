@@ -335,7 +335,7 @@ class PluginTicketcleanerFilter extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td >".__('Order', 'ticketcleaner')."&nbsp;:</td>";
-      echo "<td><input type='text' size='10' maxlength=10 name='order' value='".$this->fields["order"]."'></td>";
+      echo "<td><input type='text' size='10' maxlength=10 name='order' value='".$this->fields["order"]."' required></td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1'>";
@@ -366,4 +366,5 @@ class PluginTicketcleanerFilter extends CommonDBTM {
    }
 
 }
+
 
